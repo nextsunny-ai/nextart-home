@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NEXTART Home</title>
+<title>NEXTART — AI / XR / VFX Production</title>
+<meta name="description" content="넥스트아트는 AI 이미지·영상 제작, XR 인터랙티브 콘텐츠, VFX 프로덕션을 통해 새로운 크리에이티브 경험을 설계합니다.">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
@@ -26,7 +27,8 @@
   --accent-coral: #D4735C;
   --radius: 12px;
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
-  --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+  --shadow-md: 0 6px 20px rgba(0,0,0,0.07);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 html { font-size: 16px; scroll-behavior: smooth; }
@@ -81,7 +83,8 @@ body {
   margin-bottom: 16px;
 }
 .hero-title {
-  font-size: 2.8rem; font-weight: 800; line-height: 1.15;
+  font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; line-height: 1.15;
+  letter-spacing: -0.02em;
   color: var(--text);
   margin-bottom: 20px;
 }
@@ -139,8 +142,8 @@ body {
 }
 .news-card:hover { background: var(--card-hover); }
 .news-card .source {
-  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em;
-  color: var(--text-faint); text-transform: uppercase;
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em;
+  color: var(--emerald); text-transform: uppercase;
   margin-bottom: 12px;
 }
 .news-card .title {
@@ -167,6 +170,8 @@ body {
   font-size: 1.2rem; font-weight: 700; color: white;
   margin: 0 auto 16px;
 }
+.team-card .avatar { transition: transform 0.3s var(--ease); }
+.team-card:hover .avatar { transform: scale(1.08); }
 .team-card .name { font-size: 0.85rem; font-weight: 700; margin-bottom: 4px; }
 .team-card .role { font-size: 0.72rem; color: var(--text-dim); line-height: 1.5; }
 
@@ -185,10 +190,12 @@ body {
 .tool-icon {
   width: 44px; height: 44px; border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.3rem;
-  background: var(--emerald-soft);
+  font-size: 0.8rem; font-weight: 800; letter-spacing: 0.04em;
+  background: var(--emerald-soft); color: var(--emerald);
   flex-shrink: 0;
+  transition: background 0.2s var(--ease);
 }
+.tool-card:hover .tool-icon { background: var(--emerald-border); }
 .tool-card .tool-name { font-size: 0.82rem; font-weight: 600; margin-bottom: 2px; }
 .tool-card .tool-desc { font-size: 0.72rem; color: var(--text-dim); }
 
@@ -204,7 +211,9 @@ body {
   background: var(--emerald-soft);
   color: var(--emerald);
   border: 1px solid var(--emerald-border);
+  transition: background 0.2s var(--ease);
 }
+.keyword:hover { background: var(--emerald-border); }
 
 /* ─── FOOTER ─── */
 .footer {
@@ -215,6 +224,16 @@ body {
 .footer-left .footer-logo { font-size: 0.8rem; font-weight: 800; color: var(--emerald); letter-spacing: 0.12em; margin-bottom: 8px; }
 .footer-left .footer-desc { font-size: 0.72rem; color: var(--text-faint); line-height: 1.6; }
 .footer-right { font-size: 0.68rem; color: var(--text-faint); text-align: right; }
+
+/* ─── SKIP LINK ─── */
+.skip-link {
+  position: absolute; top: -100px; left: 16px;
+  padding: 8px 16px; background: var(--emerald); color: #fff;
+  font-size: 0.8rem; font-weight: 600; border-radius: 6px;
+  z-index: 999; text-decoration: none;
+  transition: top 0.2s var(--ease);
+}
+.skip-link:focus { top: 8px; }
 
 /* ─── FOCUS & ACCESSIBILITY ─── */
 :focus-visible {
@@ -293,6 +312,22 @@ a:focus-visible, button:focus-visible {
 }
 .mobile-menu-nav a:hover { background: var(--emerald-soft); color: var(--emerald); }
 
+/* ─── AGENCY PRO CTA ─── */
+.top-bar-cta {
+  padding: 7px 18px; font-size: 0.75rem; font-weight: 600;
+  color: #fff; background: var(--emerald);
+  border-radius: 8px; text-decoration: none;
+  transition: background 0.2s var(--ease), transform 0.2s var(--ease);
+}
+.top-bar-cta:hover { background: #163D30; transform: translateY(-1px); }
+
+/* ─── FADE-IN ─── */
+.fade-up {
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+}
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
 /* ─── RESPONSIVE ─── */
 @media (max-width: 480px) {
   .hero { grid-template-columns: 1fr; }
@@ -307,8 +342,10 @@ a:focus-visible, button:focus-visible {
   .keywords { gap: 6px; padding: 24px 16px; }
   .keyword { font-size: 0.68rem; padding: 5px 12px; }
   .top-bar { padding: 0 16px; }
-  .top-bar-item.desktop-only { display: none; }
+  .top-bar-item.desktop-only, .top-bar-cta.desktop-only { display: none; }
   .mobile-menu-btn { display: flex; }
+  .footer { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .footer-right { text-align: left; }
 }
 
 @media (min-width: 481px) and (max-width: 768px) {
@@ -320,8 +357,10 @@ a:focus-visible, button:focus-visible {
   .team-grid { grid-template-columns: repeat(2, 1fr); }
   .tools-grid { grid-template-columns: 1fr; }
   .section-header, .keywords, .footer { padding-left: 24px; padding-right: 24px; }
-  .top-bar-item.desktop-only { display: none; }
+  .top-bar-item.desktop-only, .top-bar-cta.desktop-only { display: none; }
   .mobile-menu-btn { display: flex; }
+  .footer { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .footer-right { text-align: left; }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
@@ -340,14 +379,16 @@ a:focus-visible, button:focus-visible {
 </head>
 <body>
 
+<a class="skip-link" href="#main-content">본문 바로가기</a>
+
 <!-- TOP BAR -->
-<nav class="top-bar">
+<nav class="top-bar" role="navigation" aria-label="메인 내비게이션">
   <div class="top-bar-logo">NEXTART</div>
   <a class="top-bar-item desktop-only active" href="#news">News</a>
   <a class="top-bar-item desktop-only" href="#team">Team</a>
   <a class="top-bar-item desktop-only" href="#tools">Tools</a>
   <div class="top-bar-spacer"></div>
-  <a class="top-bar-item desktop-only" href="https://team.sunnytoon.com/agency" target="_blank">Agency Pro</a>
+  <a class="top-bar-cta desktop-only" href="https://team.sunnytoon.com/agency" target="_blank" rel="noopener">Agency Pro</a>
   <button class="mobile-menu-btn" id="menuBtn" aria-label="메뉴 열기">☰</button>
 </nav>
 
@@ -364,10 +405,10 @@ a:focus-visible, button:focus-visible {
   </div>
 </div>
 
-<div class="main">
+<main class="main" id="main-content">
 
 <!-- HERO -->
-<section class="hero">
+<section class="hero" aria-label="히어로 섹션">
   <div class="hero-left">
     <div class="hero-overline">NEXTART &mdash; AI / XR / VFX</div>
     <h1 class="hero-title">
@@ -402,7 +443,7 @@ a:focus-visible, button:focus-visible {
 </div>
 
 <!-- NEWS -->
-<div class="section-header" id="news">
+<div class="section-header fade-up" id="news">
   <h2>Industry News</h2>
   <span class="count" id="news-count"></span>
 </div>
@@ -415,7 +456,7 @@ a:focus-visible, button:focus-visible {
 </div>
 
 <!-- TEAM -->
-<div class="section-header" id="team">
+<div class="section-header fade-up" id="team">
   <h2>NEXTART Team</h2>
   <span class="count">5 agents</span>
 </div>
@@ -448,7 +489,7 @@ a:focus-visible, button:focus-visible {
 </div>
 
 <!-- TOOLS -->
-<div class="section-header" id="tools">
+<div class="section-header fade-up" id="tools">
   <h2>Tools</h2>
   <span class="count">3 tools</span>
 </div>
@@ -491,7 +532,7 @@ a:focus-visible, button:focus-visible {
   </div>
 </footer>
 
-</div><!-- .main -->
+</main>
 
 <script>
 // ─── MOBILE MENU ───
@@ -547,6 +588,12 @@ function escHtml(s) {
 
 // ─── LAST UPDATED ───
 document.getElementById('last-updated').textContent = new Date().toLocaleDateString('ko-KR');
+
+// ─── FADE-IN ON SCROLL ───
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
 </script>
 </body>
 </html>

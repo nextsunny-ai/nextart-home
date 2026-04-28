@@ -113,8 +113,28 @@ body {
   text-align: center; z-index: 1;
   padding: 48px;
 }
-.hero-visual .big { font-size: 4rem; font-weight: 800; letter-spacing: -0.02em; }
-.hero-visual .sub { font-size: 0.85rem; opacity: 0.6; margin-top: 12px; letter-spacing: 0.1em; }
+.hero-visual .big {
+  font-size: clamp(3rem, 6vw, 5rem); font-weight: 800; letter-spacing: -0.03em;
+  line-height: 0.95;
+  background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.6) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero-visual .sub {
+  font-size: 0.78rem; opacity: 0.5; margin-top: 16px; letter-spacing: 0.2em;
+  text-transform: uppercase; font-weight: 600;
+}
+/* Animated glow accent */
+.hero-right::before {
+  content: ''; position: absolute;
+  width: 300px; height: 300px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+  top: -80px; right: -60px; z-index: 0;
+  animation: heroGlow 8s ease-in-out infinite alternate;
+}
+@keyframes heroGlow {
+  0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+  100% { transform: translate(-40px, 40px) scale(1.2); opacity: 0.8; }
+}
 
 /* ─── SECTION HEADERS ─── */
 .section-header {
@@ -142,17 +162,27 @@ body {
 }
 .news-card:hover { background: var(--card-hover); }
 .news-card .source {
-  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em;
+  font-size: 0.62rem; font-weight: 700; letter-spacing: 0.16em;
   color: var(--emerald); text-transform: uppercase;
   margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.news-card .source::before {
+  content: ''; width: 16px; height: 2px;
+  background: var(--emerald); border-radius: 1px;
 }
 .news-card .title {
   font-size: 0.92rem; font-weight: 600; line-height: 1.5;
   margin-bottom: 8px;
+  transition: color 0.2s;
 }
+.news-card:hover .title { color: var(--emerald); }
 .news-card .date {
   font-size: 0.72rem; color: var(--text-faint);
 }
+/* First news card = featured */
+.news-card:first-child { grid-column: span 2; }
+.news-card:first-child .title { font-size: 1.1rem; }
 
 /* ─── TEAM GRID ─── */
 .team-grid {
@@ -165,10 +195,11 @@ body {
 }
 .team-card:hover { background: var(--card-hover); }
 .team-card .avatar {
-  width: 56px; height: 56px; border-radius: 50%;
+  width: 64px; height: 64px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.2rem; font-weight: 700; color: white;
+  font-size: 1.4rem; font-weight: 700; color: white;
   margin: 0 auto 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 .team-card .avatar { transition: transform 0.3s var(--ease); }
 .team-card:hover .avatar { transform: scale(1.08); }
@@ -240,7 +271,11 @@ body {
   position: relative; overflow: hidden;
 }
 .portfolio-card:hover { background: var(--card-hover); transform: translateY(-2px); box-shadow: var(--shadow-md); }
-.portfolio-card.featured { grid-row: span 2; display: flex; flex-direction: column; justify-content: center; }
+.portfolio-card.featured {
+  grid-row: span 2; display: flex; flex-direction: column; justify-content: center;
+  background: linear-gradient(160deg, #FAFAF8 0%, #F0F7F4 100%);
+  border-left: 3px solid var(--emerald);
+}
 .portfolio-card .p-overline {
   font-size: 0.6rem; font-weight: 700; letter-spacing: 0.16em;
   text-transform: uppercase; color: var(--emerald); margin-bottom: 12px;
@@ -248,7 +283,8 @@ body {
 .portfolio-card .p-title {
   font-size: 1.15rem; font-weight: 700; line-height: 1.4; margin-bottom: 10px;
 }
-.portfolio-card.featured .p-title { font-size: 1.5rem; }
+.portfolio-card.featured .p-title { font-size: 1.5rem; letter-spacing: -0.02em; }
+.portfolio-card.featured .p-desc { font-size: 0.88rem; }
 .portfolio-card .p-desc {
   font-size: 0.82rem; color: var(--text-dim); line-height: 1.65;
 }
@@ -398,8 +434,9 @@ a:focus-visible, button:focus-visible {
   .hero-stats { gap: 20px; margin-top: 20px; }
   .stat-num { font-size: 1.5rem; }
   .portfolio-grid { grid-template-columns: 1fr; }
-  .portfolio-card.featured { grid-row: span 1; }
+  .portfolio-card.featured { grid-row: span 1; border-left: 3px solid var(--emerald); }
   .news-grid { grid-template-columns: 1fr; }
+  .news-card:first-child { grid-column: span 1; }
   .team-grid { grid-template-columns: 1fr; }
   .tools-grid { grid-template-columns: 1fr; }
   .section-header, .keywords, .footer { padding-left: 16px; padding-right: 16px; }
@@ -493,6 +530,10 @@ a:focus-visible, button:focus-visible {
       <div class="stat"><span class="stat-num">30+</span><span class="stat-label">Years VFX</span></div>
       <div class="stat"><span class="stat-num">100+</span><span class="stat-label">Projects</span></div>
       <div class="stat"><span class="stat-num">5</span><span class="stat-label">AI Agents</span></div>
+    </div>
+    <div style="margin-top: 28px; display: flex; gap: 12px;">
+      <a href="#portfolio" style="padding: 10px 24px; background: var(--emerald); color: #fff; border-radius: 8px; font-size: 0.82rem; font-weight: 600; text-decoration: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px;">Portfolio &darr;</a>
+      <a href="https://team.sunnytoon.com/agency?from=nextart" target="_blank" rel="noopener" style="padding: 10px 24px; border: 1px solid var(--emerald-border); color: var(--emerald); border-radius: 8px; font-size: 0.82rem; font-weight: 600; text-decoration: none; transition: all 0.2s;">Agency Pro &rarr;</a>
     </div>
   </div>
   <div class="hero-right">

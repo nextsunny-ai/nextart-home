@@ -216,16 +216,125 @@ body {
 .footer-left .footer-desc { font-size: 0.72rem; color: var(--text-faint); line-height: 1.6; }
 .footer-right { font-size: 0.68rem; color: var(--text-faint); text-align: right; }
 
+/* ─── FOCUS & ACCESSIBILITY ─── */
+:focus-visible {
+  outline: 2px solid var(--emerald);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--emerald);
+  outline-offset: 2px;
+}
+
+/* ─── REDUCED MOTION ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── EMPTY STATE ─── */
+.empty-state {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 48px 24px; text-align: center; grid-column: 1 / -1;
+}
+.empty-state .empty-icon { font-size: 2.4rem; margin-bottom: 16px; opacity: 0.3; }
+.empty-state .empty-msg { font-size: 0.88rem; color: var(--text-dim); margin-bottom: 16px; }
+.empty-state .empty-btn {
+  padding: 8px 20px; border-radius: 20px; border: 1px solid var(--emerald-border);
+  background: var(--emerald-soft); color: var(--emerald); font-size: 0.78rem;
+  font-family: inherit; cursor: pointer; transition: all 0.2s;
+}
+.empty-state .empty-btn:hover { background: rgba(31,77,63,0.15); }
+
+/* ─── CARD HOVER ENHANCEMENT ─── */
+.news-card { transition: background 0.2s, transform 0.2s, box-shadow 0.2s; }
+.news-card:hover { background: var(--card-hover); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.team-card { transition: background 0.2s, transform 0.2s, box-shadow 0.2s; }
+.team-card:hover { background: var(--card-hover); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.tool-card { transition: background 0.2s, transform 0.2s, box-shadow 0.2s; }
+.tool-card:hover { background: var(--card-hover); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+/* ─── MOBILE HAMBURGER ─── */
+.mobile-menu-btn {
+  display: none; background: none; border: none; cursor: pointer;
+  width: 44px; height: 44px; align-items: center; justify-content: center;
+  color: var(--text); font-size: 1.4rem; border-radius: 8px;
+}
+.mobile-menu-btn:hover { background: var(--emerald-soft); }
+.mobile-menu-overlay {
+  display: none; position: fixed; inset: 0; z-index: 300;
+  background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
+}
+.mobile-menu-overlay.open { display: block; }
+.mobile-menu-sheet {
+  position: fixed; top: 0; right: 0; bottom: 0; width: min(320px, 85vw);
+  background: var(--card-bg); z-index: 301; padding: 24px;
+  box-shadow: -8px 0 32px rgba(0,0,0,0.1);
+  transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mobile-menu-overlay.open .mobile-menu-sheet { transform: translateX(0); }
+.mobile-menu-close {
+  display: flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; background: none; border: none;
+  font-size: 1.4rem; cursor: pointer; color: var(--text); border-radius: 8px;
+  margin-left: auto; margin-bottom: 16px;
+}
+.mobile-menu-close:hover { background: var(--emerald-soft); }
+.mobile-menu-nav { display: flex; flex-direction: column; gap: 4px; }
+.mobile-menu-nav a {
+  padding: 14px 16px; font-size: 0.95rem; font-weight: 500;
+  color: var(--text); text-decoration: none; border-radius: 8px;
+  transition: background 0.2s;
+}
+.mobile-menu-nav a:hover { background: var(--emerald-soft); color: var(--emerald); }
+
 /* ─── RESPONSIVE ─── */
-@media (max-width: 768px) {
+@media (max-width: 480px) {
   .hero { grid-template-columns: 1fr; }
-  .hero-right { min-height: 240px; }
+  .hero-right { min-height: 180px; }
+  .hero-left { padding: 36px 16px; }
+  .hero-title { font-size: 1.6rem; }
+  .hero-desc { font-size: 0.85rem; }
+  .news-grid { grid-template-columns: 1fr; }
+  .team-grid { grid-template-columns: 1fr; }
+  .tools-grid { grid-template-columns: 1fr; }
+  .section-header, .keywords, .footer { padding-left: 16px; padding-right: 16px; }
+  .keywords { gap: 6px; padding: 24px 16px; }
+  .keyword { font-size: 0.68rem; padding: 5px 12px; }
+  .top-bar { padding: 0 16px; }
+  .top-bar-item.desktop-only { display: none; }
+  .mobile-menu-btn { display: flex; }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-right { min-height: 220px; }
   .hero-left { padding: 48px 24px; }
   .hero-title { font-size: 2rem; }
-  .news-grid { grid-template-columns: 1fr; }
+  .news-grid { grid-template-columns: repeat(2, 1fr); }
   .team-grid { grid-template-columns: repeat(2, 1fr); }
   .tools-grid { grid-template-columns: 1fr; }
   .section-header, .keywords, .footer { padding-left: 24px; padding-right: 24px; }
+  .top-bar-item.desktop-only { display: none; }
+  .mobile-menu-btn { display: flex; }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .hero { grid-template-columns: 1fr 1fr; }
+  .hero-title { font-size: 2.2rem; }
+  .news-grid { grid-template-columns: repeat(2, 1fr); }
+  .team-grid { grid-template-columns: repeat(3, 1fr); }
+  .tools-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1025px) {
+  .mobile-menu-btn { display: none; }
+  .mobile-menu-overlay { display: none !important; }
 }
 </style>
 </head>
@@ -234,12 +343,26 @@ body {
 <!-- TOP BAR -->
 <nav class="top-bar">
   <div class="top-bar-logo">NEXTART</div>
-  <a class="top-bar-item active" href="#news">News</a>
-  <a class="top-bar-item" href="#team">Team</a>
-  <a class="top-bar-item" href="#tools">Tools</a>
+  <a class="top-bar-item desktop-only active" href="#news">News</a>
+  <a class="top-bar-item desktop-only" href="#team">Team</a>
+  <a class="top-bar-item desktop-only" href="#tools">Tools</a>
   <div class="top-bar-spacer"></div>
-  <a class="top-bar-item" href="https://team.sunnytoon.com/agency" target="_blank">Agency Pro</a>
+  <a class="top-bar-item desktop-only" href="https://team.sunnytoon.com/agency" target="_blank">Agency Pro</a>
+  <button class="mobile-menu-btn" id="menuBtn" aria-label="메뉴 열기">☰</button>
 </nav>
+
+<!-- Mobile Sheet Menu -->
+<div class="mobile-menu-overlay" id="mobileMenu">
+  <div class="mobile-menu-sheet">
+    <button class="mobile-menu-close" id="menuClose" aria-label="메뉴 닫기">✕</button>
+    <nav class="mobile-menu-nav">
+      <a href="#news" onclick="closeMobileMenu()">News</a>
+      <a href="#team" onclick="closeMobileMenu()">Team</a>
+      <a href="#tools" onclick="closeMobileMenu()">Tools</a>
+      <a href="https://team.sunnytoon.com/agency" target="_blank">Agency Pro →</a>
+    </nav>
+  </div>
+</div>
 
 <div class="main">
 
@@ -371,24 +494,56 @@ body {
 </div><!-- .main -->
 
 <script>
-// ─── NEWS AUTO-FETCH ───
+// ─── MOBILE MENU ───
+const menuBtn = document.getElementById('menuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+const menuClose = document.getElementById('menuClose');
+
+menuBtn.addEventListener('click', () => mobileMenu.classList.add('open'));
+menuClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
+mobileMenu.addEventListener('click', (e) => {
+  if (e.target === mobileMenu) mobileMenu.classList.remove('open');
+});
+function closeMobileMenu() { mobileMenu.classList.remove('open'); }
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') mobileMenu.classList.remove('open');
+});
+
+// ─── NEWS AUTO-FETCH (with fallback + empty state) ───
+const defaultNews = [
+  { source: 'AI / XR', title: 'ComfyUI 3.0 — 영상 생성 파이프라인 통합', date: '2026-04-26', url: '#' },
+  { source: 'AI', title: 'FLUX Kontext: 학습 없이 캐릭터 일관성 80~90%', date: '2026-04-25', url: '#' },
+  { source: 'XR', title: '한탄강 LIDAR 스캔 데이터 아카이브 공개', date: '2026-04-24', url: '#' },
+  { source: 'VFX', title: 'Wan2.1 — 자체 호스팅 영상 생성 VBench 84.7%', date: '2026-04-23', url: '#' },
+  { source: 'DESIGN', title: 'Apple Liquid Glass — iOS 26 새 디자인 언어', date: '2026-04-22', url: '#' },
+  { source: 'XR', title: '서울링 모니터링 시스템 2차 납품 완료', date: '2026-04-20', url: '#' },
+];
+
 (async () => {
+  const grid = document.getElementById('news-grid');
+  const countEl = document.getElementById('news-count');
+  let items = null;
+
   try {
     const r = await fetch('data/news.json');
-    if (!r.ok) return;
-    const items = await r.json();
-    const grid = document.getElementById('news-grid');
-    document.getElementById('news-count').textContent = items.length + ' articles';
-    if (!items.length) return;
-    grid.innerHTML = items.slice(0, 9).map(n => `
-      <a class="news-card" href="${n.url || '#'}" target="_blank" rel="noopener">
-        <div class="source">${n.source || 'NEWS'}</div>
-        <div class="title">${n.title || ''}</div>
-        <div class="date">${n.date || ''}</div>
-      </a>
-    `).join('');
-  } catch(e) { /* news.json not yet available */ }
+    if (r.ok) items = await r.json();
+  } catch(e) { /* fallback */ }
+
+  if (!items || !items.length) items = defaultNews;
+
+  countEl.textContent = items.length + ' articles';
+  grid.innerHTML = items.slice(0, 9).map(n => `
+    <a class="news-card" href="${n.url || '#'}" target="_blank" rel="noopener">
+      <div class="source">${escHtml(n.source || 'NEWS')}</div>
+      <div class="title">${escHtml(n.title || '')}</div>
+      <div class="date">${escHtml(n.date || '')}</div>
+    </a>
+  `).join('');
 })();
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
 
 // ─── LAST UPDATED ───
 document.getElementById('last-updated').textContent = new Date().toLocaleDateString('ko-KR');
